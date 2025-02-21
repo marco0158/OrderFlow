@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>OrderFlow</title>
+  <style>
+    body {
+      width: 320px;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    label {
+      font-size: 14px;
+      color: #333;
+    }
+    input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    input:focus {
+      outline: none;
+      border-color: #4285f4;
+    }
+    .save-btn {
+      background-color: #4285f4;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: background-color 0.2s;
+    }
+    .save-btn:hover {
+      background-color: #3367d6;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="input-group">
+      <label for="urlPattern">网页正则匹配</label>
+      <input type="text" id="urlPattern" placeholder="输入URL正则表达式">
+    </div>
+    <div class="input-group">
+      <label for="webhook">Webhook地址</label>
+      <input type="text" id="webhook" placeholder="输入webhook地址">
+    </div>
+    <button class="save-btn" id="saveBtn">保存配置</button>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>
