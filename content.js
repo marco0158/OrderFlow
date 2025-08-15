@@ -105,6 +105,12 @@ async function executeScript1() {
         return { processWithRetry, generateOutput };
     })();
 
+    // 辅助函数：清理金额字符串，移除千分位逗号
+    function cleanAmountString(amountStr) {
+        if (!amountStr) return '0';
+        return amountStr.replace(/,/g, '');
+    }
+    
     try {
         const formData = createDataObject(getElementValues());
         const tableData = await new Promise(resolve => {
@@ -123,8 +129,8 @@ async function executeScript1() {
             if (quantity > 1) {
                 const industry = currentRow['行业'];
                 const cooperationMode = currentRow['软性合作方式'];
-                const newTotalAmount = (parseFloat(currentRow['该项目总金额']) / quantity).toString();
-                const workOrderTotalAmount = currentRow['工单总金额'];
+                const newTotalAmount = (parseFloat(cleanAmountString(currentRow['该项目总金额'])) / quantity).toString();
+                const workOrderTotalAmount = cleanAmountString(currentRow['工单总金额']);
                 const executionTime = currentRow['执行时间'];
                 const resourcePackage = currentRow['所属资源包'];
                 const remark = currentRow['资源备注'];
@@ -148,9 +154,9 @@ async function executeScript1() {
         const cleanedTableData = tableData.filter(row => parseInt(row['数量']) === 1);
 
         // 判断下单总金额（元）和表格数据中第一组数据的工单总金额
-        const orderTotalAmount = parseFloat(formData['下单总金额（元）']);
+        const orderTotalAmount = parseFloat(cleanAmountString(formData['下单总金额（元）']));
         if (cleanedTableData.length > 0) {
-            const firstWorkOrderTotalAmount = parseFloat(cleanedTableData[0]['工单总金额']);
+            const firstWorkOrderTotalAmount = parseFloat(cleanAmountString(cleanedTableData[0]['工单总金额']));
             if (orderTotalAmount > firstWorkOrderTotalAmount) {
                 const newRow = {
                     "软性ID": "",
